@@ -167,7 +167,7 @@ bowMap2=NULL
 bowMap3=NULL
 bowMap4=NULL
 
-b_i=2
+b_i=1
 #I want to loop through each month_year and plot the back bows for the reef sites and the forward bows for oceanic
 for (b_i in 1:length(MonthYear)) {
 
@@ -185,38 +185,38 @@ class(ploThis)
 # xlim <- c(80,83)
 # ylim <- c(24,26)
 
-# bowMap= ggmap(FLK_map)+
-# 
-#   geom_sf(fill="pink",alpha=.25,lwd=0,data=subset(ploThis,simu=='backward' & Zone=='Mid channel' & duration==14), inherit.aes = FALSE)+
-#   geom_sf(fill="tomato4",alpha=.25,lwd=0,data=subset(ploThis,simu=='backward' & Zone=='Mid channel' & duration==13), inherit.aes = FALSE)+
-#   geom_sf(fill="tomato3",alpha=.25,lwd=0,data=subset(ploThis,simu=='backward' & Zone=='Mid channel' & duration==12), inherit.aes = FALSE)+
-#   geom_sf(fill="tomato2",alpha=.25,lwd=0,data=subset(ploThis,simu=='backward' & Zone=='Mid channel' & duration==11), inherit.aes = FALSE)+
-#   geom_sf(fill="tomato1",alpha=.33,lwd=0,data=subset(ploThis,simu=='backward' & Zone=='Mid channel' & duration==10), inherit.aes = FALSE)+
-#   geom_sf(fill="tomato",alpha=.4,lwd=0,data=subset(ploThis,simu=='backward' & Zone=='Mid channel' & duration==9), inherit.aes = FALSE)+
-#   geom_sf(fill="red",alpha=.5,lwd=0,data=subset(ploThis,simu=='backward' & Zone=='Mid channel' & duration==8), inherit.aes = FALSE)+
-# 
-#   geom_sf(fill="gray",alpha=.25,lwd=0,data=subset(ploThis,simu=='backward' & Zone=='Mid channel' & duration==7), inherit.aes = FALSE)+
-#   geom_sf(fill="lightskyblue4",alpha=.25,lwd=0,data=subset(ploThis,simu=='backward' & Zone=='Mid channel' & duration==6), inherit.aes = FALSE)+
-#   geom_sf(fill="lightskyblue3",alpha=.25,lwd=0,data=subset(ploThis,simu=='backward' & Zone=='Mid channel' & duration==5), inherit.aes = FALSE)+
-#   geom_sf(fill="lightskyblue2",alpha=.25,lwd=0,data=subset(ploThis,simu=='backward' & Zone=='Mid channel' & duration==4), inherit.aes = FALSE)+
-#   geom_sf(fill="lightskyblue1",alpha=.33,lwd=0,data=subset(ploThis,simu=='backward' & Zone=='Mid channel' & duration==3), inherit.aes = FALSE)+
-#   geom_sf(fill="lightskyblue",alpha=.4,lwd=0,data=subset(ploThis,simu=='backward' & Zone=='Mid channel' & duration==2), inherit.aes = FALSE)+
-#   geom_sf(fill="blue",alpha=.5,lwd=0,data=subset(ploThis,simu=='backward' & Zone=='Mid channel' & duration==1), inherit.aes = FALSE)+
-# 
-#   geom_point(size=1,aes(x=Longitude,y=Latitude),color="yellow",data=subset(ploThis,Zone=='Inshore'))+
-#   geom_point(size=1,aes(x=Longitude,y=Latitude),color="green",data=subset(ploThis,Zone=='Mid channel'))+
-#   geom_point(size=1,aes(x=Longitude,y=Latitude),color="cyan",data=subset(ploThis,Zone=='Offshore'))+
-#   geom_point(size=1,aes(x=Longitude,y=Latitude),color="magenta",data=subset(ploThis,Zone=='Oceanic'))+
-#   
-#   scale_y_continuous(limits = c(24,26), expand = c(0, 0))+
-#   ggtitle(plot_month)+
-#   ylab('Latitude')+
-#   xlab('Longitude')+
-#   theme_bw(base_size = 20)
-#   # theme(text=element_text(size=18))
-#   # theme(plot.margin=grid::unit(c(0,0,0,0), "mm"))
-# 
-# # bowMap
+bowMap= ggmap(FLK_map)+
+
+  geom_sf(fill="pink",alpha=.25,lwd=0,data=subset(ploThis,simu=='backward' & Zone=='Inshore' & duration==14), inherit.aes = FALSE)+
+  geom_sf(fill="tomato4",alpha=.25,lwd=0,data=subset(ploThis,simu=='backward' & Zone=='Inshore' & duration==13), inherit.aes = FALSE)+
+  geom_sf(fill="tomato3",alpha=.25,lwd=0,data=subset(ploThis,simu=='backward' & Zone=='Inshore' & duration==12), inherit.aes = FALSE)+
+  geom_sf(fill="tomato2",alpha=.25,lwd=0,data=subset(ploThis,simu=='backward' & Zone=='Inshore' & duration==11), inherit.aes = FALSE)+
+  geom_sf(fill="tomato1",alpha=.33,lwd=0,data=subset(ploThis,simu=='backward' & Zone=='Inshore' & duration==10), inherit.aes = FALSE)+
+  geom_sf(fill="tomato",alpha=.4,lwd=0,data=subset(ploThis,simu=='backward' & Zone=='Inshore' & duration==9), inherit.aes = FALSE)+
+  geom_sf(fill="red",alpha=.5,lwd=0,data=subset(ploThis,simu=='backward' & Zone=='Inshore' & duration==8), inherit.aes = FALSE)+
+
+  geom_sf(fill="gray",alpha=.25,lwd=0,data=subset(ploThis,simu=='backward' & Zone=='Inshore' & duration==7), inherit.aes = FALSE)+
+  geom_sf(fill="lightskyblue4",alpha=.25,lwd=0,data=subset(ploThis,simu=='backward' & Zone=='Inshore' & duration==6), inherit.aes = FALSE)+
+  geom_sf(fill="lightskyblue3",alpha=.25,lwd=0,data=subset(ploThis,simu=='backward' & Zone=='Inshore' & duration==5), inherit.aes = FALSE)+
+  geom_sf(fill="lightskyblue2",alpha=.25,lwd=0,data=subset(ploThis,simu=='backward' & Zone=='Inshore' & duration==4), inherit.aes = FALSE)+
+  geom_sf(fill="lightskyblue1",alpha=.33,lwd=0,data=subset(ploThis,simu=='backward' & Zone=='Inshore' & duration==3), inherit.aes = FALSE)+
+  geom_sf(fill="lightskyblue",alpha=.4,lwd=0,data=subset(ploThis,simu=='backward' & Zone=='Inshore' & duration==2), inherit.aes = FALSE)+
+  geom_sf(fill="blue",alpha=.5,lwd=0,data=subset(ploThis,simu=='backward' & Zone=='Inshore' & duration==1), inherit.aes = FALSE)+
+
+  geom_point(size=1,aes(x=Longitude,y=Latitude),color="yellow",data=subset(ploThis,Zone=='Inshore'))+
+  geom_point(size=1,aes(x=Longitude,y=Latitude),color="green",data=subset(ploThis,Zone=='Mid channel'))+
+  geom_point(size=1,aes(x=Longitude,y=Latitude),color="cyan",data=subset(ploThis,Zone=='Offshore'))+
+  geom_point(size=1,aes(x=Longitude,y=Latitude),color="magenta",data=subset(ploThis,Zone=='Oceanic'))+
+
+  scale_y_continuous(limits = c(24,26), expand = c(0, 0))+
+  ggtitle(plot_month)+
+  ylab('Latitude')+
+  xlab('Longitude')+
+  theme_bw(base_size = 20)
+  # theme(text=element_text(size=18))
+  # theme(plot.margin=grid::unit(c(0,0,0,0), "mm"))
+
+bowMap
 # 
 # # test = bowMap +
 # #   coord_fixed(ratio = 1/cos(mean(ylim) * pi / 180) *0.8)
@@ -310,41 +310,41 @@ class(ploThis)
 # 
 # 
 # 
-#oceanic forward
-bowMap4= ggmap(FLK_map)+
-
-  geom_sf(fill="pink",alpha=.25,lwd=0,data=subset(ploThis,simu=='forward' & Zone=='Offshore' & duration==14), inherit.aes = FALSE)+
-  geom_sf(fill="tomato4",alpha=.25,lwd=0,data=subset(ploThis,simu=='forward' & Zone=='Offshore' & duration==13), inherit.aes = FALSE)+
-  geom_sf(fill="tomato3",alpha=.25,lwd=0,data=subset(ploThis,simu=='forward' & Zone=='Offshore' & duration==12), inherit.aes = FALSE)+
-  geom_sf(fill="tomato2",alpha=.25,lwd=0,data=subset(ploThis,simu=='forward' & Zone=='Offshore' & duration==11), inherit.aes = FALSE)+
-  geom_sf(fill="tomato1",alpha=.33,lwd=0,data=subset(ploThis,simu=='forward' & Zone=='Offshore' & duration==10), inherit.aes = FALSE)+
-  geom_sf(fill="tomato",alpha=.4,lwd=0,data=subset(ploThis,simu=='forward' & Zone=='Offshore' & duration==9), inherit.aes = FALSE)+
-  geom_sf(fill="red",alpha=.5,lwd=0,data=subset(ploThis,simu=='forward' & Zone=='Offshore' & duration==8), inherit.aes = FALSE)+
-
-  geom_sf(fill="gray",alpha=.25,lwd=0,data=subset(ploThis,simu=='forward' & Zone=='Offshore' & duration==7), inherit.aes = FALSE)+
-  geom_sf(fill="lightskyblue4",alpha=.25,lwd=0,data=subset(ploThis,simu=='forward' & Zone=='Offshore' & duration==6), inherit.aes = FALSE)+
-  geom_sf(fill="lightskyblue3",alpha=.25,lwd=0,data=subset(ploThis,simu=='forward' & Zone=='Offshore' & duration==5), inherit.aes = FALSE)+
-  geom_sf(fill="lightskyblue2",alpha=.25,lwd=0,data=subset(ploThis,simu=='forward' & Zone=='Offshore' & duration==4), inherit.aes = FALSE)+
-  geom_sf(fill="lightskyblue1",alpha=.33,lwd=0,data=subset(ploThis,simu=='forward' & Zone=='Offshore' & duration==3), inherit.aes = FALSE)+
-  geom_sf(fill="lightskyblue",alpha=.4,lwd=0,data=subset(ploThis,simu=='forward' & Zone=='Offshore' & duration==2), inherit.aes = FALSE)+
-  geom_sf(fill="blue",alpha=.5,lwd=0,data=subset(ploThis,simu=='forward' & Zone=='Offshore' & duration==1), inherit.aes = FALSE)+
-
-  geom_point(size=1,aes(x=Longitude,y=Latitude),color="yellow",data=subset(ploThis,Zone=='Inshore'))+
-  geom_point(size=1,aes(x=Longitude,y=Latitude),color="green",data=subset(ploThis,Zone=='Mid channel'))+
-  geom_point(size=1,aes(x=Longitude,y=Latitude),color="cyan",data=subset(ploThis,Zone=='Offshore'))+
-  geom_point(size=1,aes(x=Longitude,y=Latitude),color="magenta",data=subset(ploThis,Zone=='Oceanic'))+
-
-  scale_y_continuous(limits = c(24,26), expand = c(0, 0))+
-  ggtitle(plot_month)+
-  ylab('Latitude')+
-  xlab('Longitude')+
-  theme_bw(base_size = 20)
-bowMap4
+# #oceanic forward
+# bowMap4= ggmap(FLK_map)+
+# 
+#   geom_sf(fill="pink",alpha=.25,lwd=0,data=subset(ploThis,simu=='forward' & Zone=='Offshore' & duration==14), inherit.aes = FALSE)+
+#   geom_sf(fill="tomato4",alpha=.25,lwd=0,data=subset(ploThis,simu=='forward' & Zone=='Offshore' & duration==13), inherit.aes = FALSE)+
+#   geom_sf(fill="tomato3",alpha=.25,lwd=0,data=subset(ploThis,simu=='forward' & Zone=='Offshore' & duration==12), inherit.aes = FALSE)+
+#   geom_sf(fill="tomato2",alpha=.25,lwd=0,data=subset(ploThis,simu=='forward' & Zone=='Offshore' & duration==11), inherit.aes = FALSE)+
+#   geom_sf(fill="tomato1",alpha=.33,lwd=0,data=subset(ploThis,simu=='forward' & Zone=='Offshore' & duration==10), inherit.aes = FALSE)+
+#   geom_sf(fill="tomato",alpha=.4,lwd=0,data=subset(ploThis,simu=='forward' & Zone=='Offshore' & duration==9), inherit.aes = FALSE)+
+#   geom_sf(fill="red",alpha=.5,lwd=0,data=subset(ploThis,simu=='forward' & Zone=='Offshore' & duration==8), inherit.aes = FALSE)+
+# 
+#   geom_sf(fill="gray",alpha=.25,lwd=0,data=subset(ploThis,simu=='forward' & Zone=='Offshore' & duration==7), inherit.aes = FALSE)+
+#   geom_sf(fill="lightskyblue4",alpha=.25,lwd=0,data=subset(ploThis,simu=='forward' & Zone=='Offshore' & duration==6), inherit.aes = FALSE)+
+#   geom_sf(fill="lightskyblue3",alpha=.25,lwd=0,data=subset(ploThis,simu=='forward' & Zone=='Offshore' & duration==5), inherit.aes = FALSE)+
+#   geom_sf(fill="lightskyblue2",alpha=.25,lwd=0,data=subset(ploThis,simu=='forward' & Zone=='Offshore' & duration==4), inherit.aes = FALSE)+
+#   geom_sf(fill="lightskyblue1",alpha=.33,lwd=0,data=subset(ploThis,simu=='forward' & Zone=='Offshore' & duration==3), inherit.aes = FALSE)+
+#   geom_sf(fill="lightskyblue",alpha=.4,lwd=0,data=subset(ploThis,simu=='forward' & Zone=='Offshore' & duration==2), inherit.aes = FALSE)+
+#   geom_sf(fill="blue",alpha=.5,lwd=0,data=subset(ploThis,simu=='forward' & Zone=='Offshore' & duration==1), inherit.aes = FALSE)+
+# 
+#   geom_point(size=1,aes(x=Longitude,y=Latitude),color="yellow",data=subset(ploThis,Zone=='Inshore'))+
+#   geom_point(size=1,aes(x=Longitude,y=Latitude),color="green",data=subset(ploThis,Zone=='Mid channel'))+
+#   geom_point(size=1,aes(x=Longitude,y=Latitude),color="cyan",data=subset(ploThis,Zone=='Offshore'))+
+#   geom_point(size=1,aes(x=Longitude,y=Latitude),color="magenta",data=subset(ploThis,Zone=='Oceanic'))+
+# 
+#   scale_y_continuous(limits = c(24,26), expand = c(0, 0))+
+#   ggtitle(plot_month)+
+#   ylab('Latitude')+
+#   xlab('Longitude')+
+#   theme_bw(base_size = 20)
+# bowMap4
 
 # name4=paste0("/Users/heidi.k.hirsh/Desktop/14days_cropped/ocean_forward/original/",plot_month,"_concave_bowties_oceanicFORWARD_tri_dec12.png")
-name4=paste0("/Users/heidi.k.hirsh/Desktop/14days_cropped/offshore_forward/original/",plot_month,"_concave_bowties_offshoreFORWARD_tri_dec12.png")
-
-ggsave(file=name4,bowMap4, width = 10, height = 8, dpi = 300, units = "in")
+# name4=paste0("/Users/heidi.k.hirsh/Desktop/14days_cropped/offshore_forward/original/",plot_month,"_concave_bowties_offshoreFORWARD_tri_dec12.png")
+# 
+# ggsave(file=name4,bowMap4, width = 10, height = 8, dpi = 300, units = "in")
 
 
 }
@@ -479,3 +479,32 @@ over_bow = st_intersection(coral_sf.tv,bowTest)
 mapview(over_bow,zcol="ClassLv4")
 
 mapview(list(over_bow,bowTest),col.regions=list(zcol="ClassLv4","blue"),col=list(zcol="ClassLv4","blue"))
+
+
+
+
+
+#try leaflet plot with 14 days. 
+
+
+plot_month= MonthYear[b_i]
+ploThis = subset(CCbows_sf, MY == plot_month)
+ploThis <- st_transform(ploThis, crs = 4326)
+class(ploThis)
+
+mapview(plotThis)
+
+
+clrs = rainbow(14, start = 0, end = 0.8)
+clrs_rev <- rev(rainbow(7, start = 0, end = 0.8))
+d=ploThis$n_days
+pal = colorNumeric(palette = clrs_rev, domain = min(d):max(d))
+
+
+leaflet(data=ploThis) %>% 
+  addProviderTiles('Esri.WorldImagery') %>%
+  addPolygons(data=subset(ploThis,simu=='backward' & Zone=='Inshore' & n_days==2),fillOpacity=0,weight=1,color = ~pal(d))  %>%
+  # addPolygons(data=subset(ploThis_t,simu=='forward'),fillOpacity=0.1,weight=1,color = ~pal(d))  %>%
+  addCircleMarkers(lng = ~ dec.lon,~ dec.lat,radius=1,color='white')
+
+

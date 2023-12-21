@@ -4,7 +4,7 @@
 .Rhistory
 .Rapp.history
 *.Rproj
-Test-flk.Rproj
+test-flk.Rproj
 
 # Session Data files
 .RData

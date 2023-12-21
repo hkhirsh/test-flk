@@ -86,7 +86,7 @@ crs(yearBows)
 
 
 #read in CC dataframe with PAR. 
-# yearBows = st_read('/Users/heidihirsh/Desktop/FLK_data/Bows_forPlotting_Dec9.shp')
+yearBows = st_read('/Users/heidi.k.hirsh/Desktop/FLK_data/Bows_forPlotting_Dec9.shp')
 CC = read.csv('/Users/heidi.k.hirsh/Desktop/FLK_data/CCflk_plusBathy.csv') 
 # View(CC)
 dim(CC) # 1611   63
@@ -115,6 +115,9 @@ length(unique(CCbows$ESTDate))
 MonthYear = unique(CCbows$MY)
 FLK_map=get_map(location=c(-80.99306,25.27732),zoom=8,maptype = "satellite")
 # FLK_map=get_map(location=c(mean(st_bbox(ploThis)[c(1,3)]),mean(st_bbox(ploThis)[c(2,4)])),zoom=8,maptype = "satellite")
+
+
+# FLKline <- st_read('/Users/heidi.k.hirsh/Desktop/rekmztoshp')
 
 # b_i =20
 #I want to loop through each month_year and plot the back bows for the reef sites and the forward bows for oceanic

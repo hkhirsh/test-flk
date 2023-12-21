@@ -20,6 +20,11 @@ library(mapview)
 library(leaflet)
 register_google(key = "AIzaSyB3mq0nJtcNWvQUNuqH_t-MLxEUmwDDmGk") #new api OCT2023
 
+# FLKline <- st_read('/Users/heidi.k.hirsh/Desktop/rekmztoshp/Heidi_Keys_Lin_FeatureToLine.shp')
+# mapview(FLKline)
+# plot(FLKline)
+# FLKlineSF=st_as_sf(FLKline, crs = st_crs(4326))
+# mapview(FLKlineSF)
   
 #read in all bow tie files for the year (identify them)
 # bow_fl = list.files(path = paste0("/Users/heidi.k.hirsh/Desktop/bow_ties_shp_extended/bow_ties_shp_extended/14days"),full.names=T)  
@@ -186,7 +191,7 @@ class(ploThis)
 # ylim <- c(24,26)
 
 bowMap= ggmap(FLK_map)+
-
+  
   geom_sf(fill="pink",alpha=.25,lwd=0,data=subset(ploThis,simu=='backward' & Zone=='Inshore' & duration==14), inherit.aes = FALSE)+
   geom_sf(fill="tomato4",alpha=.25,lwd=0,data=subset(ploThis,simu=='backward' & Zone=='Inshore' & duration==13), inherit.aes = FALSE)+
   geom_sf(fill="tomato3",alpha=.25,lwd=0,data=subset(ploThis,simu=='backward' & Zone=='Inshore' & duration==12), inherit.aes = FALSE)+
@@ -207,8 +212,10 @@ bowMap= ggmap(FLK_map)+
   geom_point(size=1,aes(x=Longitude,y=Latitude),color="green",data=subset(ploThis,Zone=='Mid channel'))+
   geom_point(size=1,aes(x=Longitude,y=Latitude),color="cyan",data=subset(ploThis,Zone=='Offshore'))+
   geom_point(size=1,aes(x=Longitude,y=Latitude),color="magenta",data=subset(ploThis,Zone=='Oceanic'))+
+  
+  # geom_sf(colour='white',lwd=1,data=FLKline,inherit.aes = FALSE)+
 
-  scale_y_continuous(limits = c(24,26), expand = c(0, 0))+
+  scale_y_continuous(limits = c(24.15,26.15), expand = c(0, 0))+
   ggtitle(plot_month)+
   ylab('Latitude')+
   xlab('Longitude')+
@@ -217,6 +224,8 @@ bowMap= ggmap(FLK_map)+
   # theme(plot.margin=grid::unit(c(0,0,0,0), "mm"))
 
 bowMap
+# ggsave(file="/Users/heidi.k.hirsh/Desktop/line.png",bowMap, width = 10, height = 8, dpi = 300, units = "in")
+
 # 
 # # test = bowMap +
 # #   coord_fixed(ratio = 1/cos(mean(ylim) * pi / 180) *0.8)
@@ -229,15 +238,15 @@ bowMap
 # # name=paste0("/Users/heidi.k.hirsh/Desktop/14days_cropped/offshore/original/",plot_month,"_concave_bowties_offshoreBACK_tri_dec11.png")
 # # crop=paste0("/Users/heidi.k.hirsh/Desktop/14days_cropped/offshore/cropped/",plot_month,"_concave_bowties_offshoreBACK_triCrop_dec11.png")
 # 
-# # name=paste0("/Users/heidi.k.hirsh/Desktop/14days_cropped/inshore/original/",plot_month,"_concave_bowties_inshoreBACK_tri_dec11T.png")
-# # crop=paste0("/Users/heidi.k.hirsh/Desktop/14days_cropped/inshore/cropped/",plot_month,"_concave_bowties_inshoreBACK_triCrop_dec11T.png")
+name=paste0("/Users/heidi.k.hirsh/Desktop/14days_cropped/inshore/original/",plot_month,"_concave_bowties_inshoreBACK_tri_dec16T.png")
+crop=paste0("/Users/heidi.k.hirsh/Desktop/14days_cropped/inshore/cropped/",plot_month,"_concave_bowties_inshoreBACK_triCrop_dec16T.png")
 # 
 # # name=paste0("/Users/heidi.k.hirsh/Desktop/14days_cropped/oceanic/original/",plot_month,"_concave_bowties_oceanicBACK_tri_dec11.png")
 # # crop=paste0("/Users/heidi.k.hirsh/Desktop/14days_cropped/oceanic/cropped/",plot_month,"_concave_bowties_oceanicBACK_triCrop_dec11.png")
 # 
-# ggsave(file=name,bowMap, width = 10, height = 8, dpi = 300, units = "in")
-# # new = image_border(image_trim(image_read(name)),'white',"30x30")
-# # image_write(new,crop)
+ggsave(file=name,bowMap, width = 10, height = 8, dpi = 300, units = "in")
+# new = image_border(image_trim(image_read(name)),'white',"30x30")
+# image_write(new,crop)
 
 
 # offshore

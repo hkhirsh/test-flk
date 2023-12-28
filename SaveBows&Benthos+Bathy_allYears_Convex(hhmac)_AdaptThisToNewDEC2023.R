@@ -8,7 +8,7 @@ library(ggrepel)
 library(rstudioapi)
 library(stringr)
 library(sp)
-library(rgdal)
+# library(rgdal)
 library(raster)
 library(rgeos)
 library(patchwork)
@@ -16,55 +16,80 @@ library(mapview)
 library(leaflet)
 register_google(key = "AIzaSyB3mq0nJtcNWvQUNuqH_t-MLxEUmwDDmGk") #api updated OCT23
 
+#setting up to run with latest bowites 12/28/2023
 #run original bowties (no land) on HH mac 12/24/2022
 #update: i messed up the 12/24 run because I buffered in and out on the convex hulls (dumb). Need to rerun without doing that!
 
 #read in FL unified reef map habitat data: 
 coral_sf =  st_read(dsn = "/Users/heidi.k.hirsh/Desktop/FLK_data/Final_UnifiedReefMap_Version2.0/FWC_UnifiedFloridaReefMap_v2.0.gdb", layer="UnifiedReefMap")
-# coral_sf =  st_read(dsn = "/Users/heidi.local/Desktop/FLK_data/Final_UnifiedReefMap_Version2.0/FWC_UnifiedFloridaReefMap_v2.0.gdb", layer="UnifiedReefMap")
 
 #load benthic composition lookup table: 
 benthicLU = read.csv("/Users/heidi.k.hirsh/Documents/Git_Projects/FLK-Modeling-Hirsh-copy-DONTTOUCH//ClassLv4_BenthicLookup_V1_Rank_fixed_NOland_Clean.csv")
-# benthicLU = read.csv("/Users/heidihirsh/Documents/Git_Projects/FLK-Modeling-Hirsh/ClassLv4_BenthicLookup_V1_Rank_fixed_NOland_Clean.csv")
-# benthicLU = read.csv("/Users/heidi.local/Documents/Git_Projects/FLK-Modeling-Hirsh/ClassLv4_BenthicLookup_V1_Rank_fixed_NOland_Clean.csv")
 
-year_fl = list.files(path = paste0("/Users/heidi.k.hirsh/Desktop/old_bowties_no_land_noAug1"),full.names=T) 
+# year_fl = list.files(path = paste0("/Users/heidi.k.hirsh/Desktop/bow_ties_shp_extended/bow_ties_shp_extended_tri/14days"),full.names=T)
+# year_fl
+
+#we can now define bow_fl up here!
+bow_fl = list.files(path = paste0("/Users/heidi.k.hirsh/Desktop/bow_ties_shp_extended/bow_ties_shp_extended_tri/14days"),full.names=T)
+bow_fl
+length(bow_fl) 
+
+## year_fl = list.files(path = paste0("/Users/heidi.k.hirsh/Desktop/old_bowties_no_land_noAug1"),full.names=T) 
 ## year_fl =list.files(path = paste0("/Users/heidihirsh/Desktop/FLK_data/concave_bowtie_thingies"),full.names=T)
-# year_fl =list.files(path = paste0("/Users/heidi.local/Desktop/FLK_data/concave_bowtie_thingies"),full.names=T)  #use this to run concave version
-length(year_fl)
+## year_fl =list.files(path = paste0("/Users/heidi.local/Desktop/FLK_data/concave_bowtie_thingies"),full.names=T)  #use this to run concave version
+
 yearBows=NULL
 
-# y_i=5
+# f_i=5
 #loop through years up here...
-for (y_i in 1:length(year_fl)) {   
-  splitYFile=str_split(string=year_fl[y_i],"/")
-  # splitYFile
-  Year = splitYFile[[1]][6]
+for (f_i in 1:length(year_fl)) {   
+  splitYFile=str_split(string=year_fl[f_i],"/")
+  splitYFile
+  # Year = splitYFile[[1]][8]
   # Year
+  # vID = splitYFile[[1]][8]
+  # vID # "1_20150727_122000_14days"
+  layerName = splitYFile[[1]][8]
+  layerName
   
-#read in all bow tie files for the year (identify them)
-bow_fl = list.files(path = paste0("/Users/heidi.k.hirsh/Desktop/old_bowties_no_land_noAug1/",Year),full.names=T)
-# bow_fl = list.files(path = paste0("/Users/heidi.local/Desktop/FLK_data/concave_bowtie_thingies/",Year),full.names=T)
-#I removed the file for 12_20170801 
-#for the convex approach I removed 12_20170801_072200
-# bow_fl
-# length(bow_fl)
 
-#pull out relevant info (date, #days)
+  #I think I can skip to the defining the layerName here (as vID) then go straight to the st_read line without starting a second loop (since not divided by year). sorry I'm making a mess future Heidi, but I think this will ultimately clean it up actually. 
+  
+# #read in all bow tie files for the year (identify them)
+# #for the new shapefile structure this reads in all files for each site/date (unique visitID)
+# # bow_fl = list.files(path = paste0("/Users/heidi.k.hirsh/Desktop/old_bowties_no_land_noAug1/",Year),full.names=T)
+# bow_fl = list.files(path = paste0("/Users/heidi.k.hirsh/Desktop/bow_ties_shp_extended/bow_ties_shp_extended_tri/14days/",vID),full.names=T)
+# bow_fl=bow_fl[4]
+# #need to select the shp file (is it always the 4th file?)
+# 
+# # bow_fl = list.files(path = paste0("/Users/heidi.local/Desktop/FLK_data/concave_bowtie_thingies/",Year),full.names=T)
+# #I removed the file for 12_20170801 
+# #for the convex approach I removed 12_20170801_072200
+# # bow_fl
+# # length(bow_fl)
+# 
+# #check for file to remove. already gone (I only see: 12_20170131_032400_14days) 
+# 
+# #pull out relevant info (date, #days)
 # f_i=1
-bows=NULL
-for (f_i in 1:length(bow_fl)) {   #loop through sampling sites for the given year
-
-  splitBFile=str_split(string=bow_fl[f_i],"/")
-  # splitBFile
-  bowGroup = splitBFile[[1]][7]
-  # bowGroup
-  layerName = paste0('bowties_no_land_',bowGroup)
-  # layerName = paste0('bowties_inter_mesh_',bowGroup)
-  # layerName
+# bows=NULL
+# for (f_i in 1:length(bow_fl)) {   #loop through sampling sites for the given year
+# 
+#   splitBFile=str_split(string=bow_fl[f_i],"/")
+#   splitBFile
+  bowGroup = splitBFile[[1]][8]
+  bowGroup
+#   layerName = paste0('bowties_no_land_',bowGroup)
+#   # layerName = paste0('bowties_inter_mesh_',bowGroup)
+#   # layerName
   
   #read shapefile (includes forward and backward bows for 1-7 day durations at the sampling site for a given date/time)
-  bows.original = st_read(dsn = bow_fl[f_i],layer=layerName) #this is a DAY of forward and backward bows (not one bow)
+  # bows.original = st_read(dsn = bow_fl[f_i],layer=layerName) #this is a DAY of forward and backward bows (not one bow)
+  # bows.original = st_read('/Users/heidi.k.hirsh/Desktop/FLK_data/Bows_forPlotting_14days_tri.shp')
+  bows.original = st_read(dsn=bow_fl[f_i], layer=layerName)
+  bows.original
+  #limit to only 7 days of bows - or do this later!!
+  
   
   #concave out and in 
   bows_utm17 = st_transform(bows.original, 26917)
@@ -76,7 +101,7 @@ for (f_i in 1:length(bow_fl)) {   #loop through sampling sites for the given yea
   bows.bo = st_buffer(bows_utm17, dist=D, nQuadSegs=30)  
   bows.bi = st_buffer(bows.bo, dist=-D, nQuadSegs=30)
   # View(bows.bi)
-  
+
   # ploThis = bows.bi
   # ploThis_t = st_transform(ploThis,crs='+proj=longlat +datum=WGS84')
   # 
@@ -91,19 +116,34 @@ for (f_i in 1:length(bow_fl)) {   #loop through sampling sites for the given yea
   crs(bows.bi) # +proj=utm +zone=17 +datum=NAD83 +units=m +no_defs 
   crs(bows.original) #+proj=longlat +ellps=WGS84 +no_defs 
   bows=bows.bi
-  # mapview(bows.original)
-  # mapview(bows.bi)
+  mapview(bows.original)
+  mapview(bows.bi)
   
   #pull visitID, date, time from bowGroup
   splitName=str_split(string=bowGroup,"_")
-  # splitName
+  splitName
   
-  visitID=bowGroup
-  # visitID
+
+  visitID=sub("_[^_]*$", "", bowGroup)
+  # visitID=bowGroup #cut off 14days at the end... 
+  visitID
+  ID_notime = sub("_[^_]*$", "", visitID) 
+  #now isolate piece after the last underscore
+  input=ID_notime
+  ID_date = strsplit(input, "_(?!.*_)", perl=TRUE)[[1]]
+ID_date
+date=ID_date[-1]
+date
+year=substr(date,1,4)
+year
+  
+  
+  
   bows$year=Year
+  #how can I isolate year from the name? since sites are sometimes separated by _)
   bows$visitID=visitID
-  bows$duration=bows$ndays
-  bows$bowID = paste0(bows$visitID,"_",bows$simu,"_",bows$ndays)
+  bows$duration=bows$n_days
+  bows$bowID = paste0(bows$visitID,"_",bows$simu,"_",bows$n_days)
   
   yearBows =  rbind(yearBows,bows)
   # dim(yearBows)

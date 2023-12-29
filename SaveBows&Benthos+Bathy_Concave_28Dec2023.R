@@ -35,9 +35,10 @@ bow_fl = list.files(path = paste0("/Users/heidi.k.hirsh/Desktop/bow_ties_shp_ext
 # f_i=1100 #one with a split name
 # #loop through years up here...
 # f_i=77
+#running this loop "for real" at 4:35pm on Dec 28, 2023
 yearBows = NULL
-# for (f_i in 1:length(bow_fl)) {
-for (f_i in 1:5) {
+for (f_i in 1:length(bow_fl)) {
+# for (f_i in 1:5) {
     
   splitBFile = str_split(string = bow_fl[f_i], "/")
   splitBFile
@@ -131,7 +132,46 @@ dim(yearBows)
 #below was the latest saved file (oct15)
 # st_write(yearBows, '/Users/heidihirsh/Desktop/ConvexBufferedBows_AllYears_24Dec2022.shp')
 #new save (oct15)
-st_write(yearBows,'/Users/heidi.k.hirsh/Desktop/Concave14Bows_AllYears_subset5_dec28.shp')
+st_write(yearBows,'/Users/heidi.k.hirsh/Desktop/Concave14Bows_AllYears_28dec223.shp')
+
+#saving failed so maybe I can save two halves
+#34160x8 
+#save 17080 rows in each
+
+
+  # split_df <- function(df) {
+  #   df1 <- df[1:ceiling(length(df[ , 1])), ]
+  #   df2 <- df[ceiling(length(df[ , 1])):length(df[ , 1]), ]
+  #   return(list(df1, df2))
+  # }
+  # 
+  # test=split_df(yearBows)
+  # 
+  # dim(test[[1]])
+  # dim(test[[2]])
+rows=dim(yearBows)[1]
+rows
+
+yearBows1 = yearBows[1:17080,]
+yearBows2 = yearBows[17081:34160,]
+# y1=yearBows[1:(rows/2),]
+# y2=yearBows[(rows/2+1):rows,]
+st_write(yearBows1,'/Users/heidi.k.hirsh/Desktop/Concave14Bows_AllYears_28dec223_part1of2.shp')
+st_write(yearBows2,'/Users/heidi.k.hirsh/Desktop/Concave14Bows_AllYears_28dec223_part2of2.shp')
+
+#save in 4 parts
+#8540 rows each
+y1=yearBows[1:(rows/5),] #1:6832
+y2=yearBows[(rows/5+1):(2*rows/5),] #6833:13664
+y3=yearBows[(2*rows/5+1):(3*rows/5),] #13665:20496
+y4=yearBows[(3*rows/5+1):(4*rows/5),] #20497:27328
+y5=yearBows[(4*rows/5+1):rows,] #27329:34160
+
+st_write(y1,'/Users/heidi.k.hirsh/Desktop/yearBows.29Dec/Concave14Bows_AllYears_28dec223_y1of5.shp')
+st_write(y2,'/Users/heidi.k.hirsh/Desktop/yearBows.29Dec/Concave14Bows_AllYears_28dec223_y2of5.shp')
+st_write(y3,'/Users/heidi.k.hirsh/Desktop/yearBows.29Dec/Concave14Bows_AllYears_28dec223_y3of5.shp')
+st_write(y4,'/Users/heidi.k.hirsh/Desktop/yearBows.29Dec/Concave14Bows_AllYears_28dec223_y4of5.shp')
+st_write(y5,'/Users/heidi.k.hirsh/Desktop/yearBows.29Dec/Concave14Bows_AllYears_28dec223_y5of5.shp')
 
 #don't do volume intersection since ThomasD already calculated volume. So start with 'ConcaveBows_AllYears.shp' below
 #Buffer out and back in (to capture shallow areas)
@@ -161,6 +201,7 @@ st_write(yearBows,'/Users/heidi.k.hirsh/Desktop/Concave14Bows_AllYears_subset5_d
 
 
 benthicBows=yearBows
+dim(benthicBows)
 
 ## to run from file
 # benthicBows=NULL
@@ -175,6 +216,8 @@ dim(benthicBows)
 # unique(benthicBows$simu)
 # unique(benthicBows$n_days)
 
+# st_write(benthicBows,'/Users/heidi.k.hirsh/Desktop/7days.backward.yearBows.preBenthicCut.shp')
+
 
 
 benthicBows[, 'CALCi.m2'] = NA
@@ -187,7 +230,8 @@ benthicBows[, 'PercentCheck'] = NA
 
 head(benthicBows)
 
-# b_i=1
+b_i=10
+
 # for (b_i in 1:nrow(benthicBows)) {
   for (b_i in 1:7) {
   Bbow = benthicBows[b_i, ]
@@ -275,7 +319,10 @@ head(benthicBows)
 # st_write(benthicBows, '/Users/heidi.local/Desktop/Concave_BowBenthic_allRTdays_start14Dec2022.shp')
 
 
-st_write(benthicBows,'/Users/heidihirsh/Desktop/Concave_BowBenthic_7days_subsetTest.shp')
+st_write(benthicBows,'/Users/heidihirsh/Desktop/Concave_BowBenthic_7days_29dec2023full.shp')
 # st_write(benthicBows,'/Users/heidihirsh/Desktop/Concave_BowBenthic_7days_start28Dec2023.shp')
+
+
+
 
 dim(benthicBows)

@@ -93,17 +93,17 @@ for (f_i in 1:length(bow_fl)) {
 
   #pull visitID information and separate out year
   splitName = str_split(string = layerName, "_")
-  splitName
+  # splitName
   visitID = sub("_[^_]*$", "", layerName)  #drop "_14days"
-  visitID
+  # visitID
   ID_cuTime = sub("_[^_]*$", "", visitID)   
-  ID_cuTime 
+  # ID_cuTime 
   ID_date = strsplit(ID_cuTime, "_(?!.*_)", perl = TRUE)[[1]]
-  ID_date
+  # ID_date
   Date = ID_date[-1]
-  Date
+  # Date
   Year = substr(Date, 1, 4)
-  Year
+  # Year
   
   bows=bows.bi
   bows$year = Year
@@ -199,25 +199,19 @@ st_write(y5,'/Users/heidi.k.hirsh/Desktop/yearBows.29Dec/Concave14Bows_AllYears_
 
 # ________________________________ADD BENTHIC INDICES_____________________________________
 
-
+#start benthic overlap loop at 8:10am Dec 29 (estimated 14 hours)
+benthicBows=NULL
 benthicBows=yearBows
 dim(benthicBows)
 
-## to run from file
-# benthicBows=NULL
-# benthicBows = st_read('/Users/heidihirsh/Desktop/ConvexBufferedBows_AllYears_24Dec2022.shp')
 
-dim(benthicBows)
-#don't need forward bows:
-benthicBows = benthicBows[which(benthicBows$simu == 'backward'), ]
-#limit to 7 days (or fewer)
-benthicBows = benthicBows[which(benthicBows$n_days <=7),]
+benthicBows = benthicBows[which(benthicBows$simu == 'backward'), ] #don't need forward bows
+benthicBows = benthicBows[which(benthicBows$n_days <=7),] #limit to 7 days (or fewer)
 dim(benthicBows)
 # unique(benthicBows$simu)
 # unique(benthicBows$n_days)
 
 # st_write(benthicBows,'/Users/heidi.k.hirsh/Desktop/7days.backward.yearBows.preBenthicCut.shp')
-
 
 
 benthicBows[, 'CALCi.m2'] = NA
@@ -230,17 +224,17 @@ benthicBows[, 'PercentCheck'] = NA
 
 head(benthicBows)
 
-b_i=10
+# b_i=10
 
-# for (b_i in 1:nrow(benthicBows)) {
-  for (b_i in 1:7) {
+for (b_i in 1:nrow(benthicBows)) {
+  # for (b_i in 1:7) {
   Bbow = benthicBows[b_i, ]
   print(paste0('starting bow ', b_i, ' of ', nrow(benthicBows)))
   tick = Sys.time()
   # st_crs(Bbow) #D_Unknown_based_on_WGS84_ellipsoid
   # st_crs(coral_sf) #NAD83
   
-  
+
   #Tranform coral_sf to match Bbow CRS:
   coral_sf.t = st_transform(coral_sf, st_crs(Bbow))
   # st_crs(coral_sf.t) #"D_Unknown_based_on_WGS84_ellipsoid"
@@ -315,14 +309,12 @@ b_i=10
   
 } #end loop to pull benthic info
 
-# st_write(benthicBows, '/Users/heidi.local/Desktop/Concave_BowBenthic_allRTdays_start13Dec2022.shp')
-# st_write(benthicBows, '/Users/heidi.local/Desktop/Concave_BowBenthic_allRTdays_start14Dec2022.shp')
-
-
-st_write(benthicBows,'/Users/heidihirsh/Desktop/Concave_BowBenthic_7days_29dec2023full.shp')
+dim(benthicBows)
+st_write(benthicBows,'/Users/heidi.k.hirsh/Desktop/Concave_BowBenthic_7days_29dec2023full.shp')
 # st_write(benthicBows,'/Users/heidihirsh/Desktop/Concave_BowBenthic_7days_start28Dec2023.shp')
 
-
-
-
+class(benthicBows)
 dim(benthicBows)
+
+
+

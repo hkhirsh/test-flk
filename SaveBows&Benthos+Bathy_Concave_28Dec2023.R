@@ -1,19 +1,21 @@
-rm(list = ls())
+rm(list = ls()) #clear environment
+# sessionInfo()
 
-library(sf)
-library(ggplot2)
-library(tidyverse)
-library(ggmap)
-library(ggrepel)
-library(rstudioapi)
-library(stringr)
-library(sp)
-library(raster)
-library(rgeos)
-library(patchwork)
-library(mapview)
-library(leaflet)
-register_google(key = "AIzaSyB3mq0nJtcNWvQUNuqH_t-MLxEUmwDDmGk") #api updated OCT23
+# Load packages ----
+# packageload <- c("sf","tidyverse","ggmap","ggrepel","rstudioapi","stringr","sp","raster","rgeos","patchwork","mapview","leaflet","ggplot2")   #plotting/mapping packages: "ggmap","ggplot2","patchwork","mapview","leaflet"
+packageload <- c("sf","stringr","raster")
+lapply(packageload, library, character.only = TRUE)
+
+# Find which packages do used functions belong to ----
+used.functions <- NCmisc::list.functions.in.file(filename = "/Users/heidi.k.hirsh/Documents/GitHub/test-flk/SaveBows&Benthos+Bathy_Concave_28Dec2023.R", alphabetic = FALSE) |> print()
+
+# Find which loaded packages are not used ----
+used.packages <- used.functions |> names() |> grep(pattern = "package:", value = TRUE) |> gsub(pattern = "package:", replacement = "") |> print()
+unused.packages <- packageload[!(packageload %in% used.packages)] |> print()
+
+
+
+###################
 
 #setting up to run with latest bowites 12/28/2023
 #run original bowties (no land) on HH mac 12/24/2022

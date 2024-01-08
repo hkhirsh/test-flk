@@ -1,3 +1,6 @@
+
+#setting up to run with latest bowites 12/28/2023
+
 rm(list = ls()) #clear environment
 # sessionInfo()
 
@@ -6,6 +9,8 @@ rm(list = ls()) #clear environment
 packageload <- c("sf","stringr","raster")
 lapply(packageload, library, character.only = TRUE)
 
+
+# ----Check which packages we actually use----
 # Find which packages do used functions belong to ----
 used.functions <- NCmisc::list.functions.in.file(filename = "/Users/heidi.k.hirsh/Documents/GitHub/test-flk/SaveBows&Benthos+Bathy_Concave_28Dec2023.R", alphabetic = FALSE) |> print()
 
@@ -14,73 +19,37 @@ used.packages <- used.functions |> names() |> grep(pattern = "package:", value =
 unused.packages <- packageload[!(packageload %in% used.packages)] |> print()
 
 
+#####______________________________________#####
 
-###################
 
-#setting up to run with latest bowites 12/28/2023
-#run original bowties (no land) on HH mac 12/24/2022
-#update: i messed up the 12/24 run because I buffered in and out on the convex hulls (dumb). Need to rerun without doing that!
-
-#read in FL unified reef map habitat data:
+# Read in FL unified reef map habitat data:
 coral_sf =  st_read(dsn = "/Users/heidi.k.hirsh/Desktop/FLK_data/Final_UnifiedReefMap_Version2.0/FWC_UnifiedFloridaReefMap_v2.0.gdb", layer = "UnifiedReefMap")
 
-#load benthic composition lookup table:
-benthicLU = read.csv("/Users/heidi.k.hirsh/Documents/Git_Projects/FLK-Modeling-Hirsh-copy-DONTTOUCH//ClassLv4_BenthicLookup_V1_Rank_fixed_NOland_Clean.csv")
+# Load benthic composition lookup table:
+benthicLU = read.csv("/Users/heidi.k.hirsh/Documents/Git_Projects/FLK-Modeling-Hirsh-copy-DONTTOUCH/ClassLv4_BenthicLookup_V1_Rank_fixed_NOland_Clean.csv")
 
-
+# List bow tie files (14 day backward and forward extended triangles)
 bow_fl = list.files(path = paste0("/Users/heidi.k.hirsh/Desktop/bow_ties_shp_extended/bow_ties_shp_extended_tri/14days" ), full.names = T)
-# head(bow_fl)
 # length(bow_fl) #1220
 
 
-
-# f_i=1100 #one with a split name
-# #loop through years up here...
-# f_i=77
+# Loop through each bow tie shapefile and buffer out/in to create a more complete "footprint" of the water mass
 #running this loop "for real" at 4:35pm on Dec 28, 2023
-yearBows = NULL
+yearBows = NULL  #note: we call it yearBows because in a previous version I looped through each year first
 for (f_i in 1:length(bow_fl)) {
-# for (f_i in 1:5) {
     
   splitBFile = str_split(string = bow_fl[f_i], "/")
-  splitBFile
+  # splitBFile
   layerName = splitBFile[[1]][8]
-  layerName
+  # layerName
   
   bows=NULL
-  #I think I can skip to the defining the layerName here (as vID) then go straight to the st_read line without starting a second loop (since not divided by year). sorry I'm making a mess future Heidi, but I think this will ultimately clean it up actually.
-  
-  # #read in all bow tie files for the year (identify them)
-  # #for the new shapefile structure this reads in all files for each site/date (unique visitID)
-  # # bow_fl = list.files(path = paste0("/Users/heidi.k.hirsh/Desktop/old_bowties_no_land_noAug1/",Year),full.names=T)
-  # bow_fl = list.files(path = paste0("/Users/heidi.k.hirsh/Desktop/bow_ties_shp_extended/bow_ties_shp_extended_tri/14days/",vID),full.names=T)
-  # bow_fl=bow_fl[4]
-  # #need to select the shp file (is it always the 4th file?)
-  #
-  # # bow_fl = list.files(path = paste0("/Users/heidi.local/Desktop/FLK_data/concave_bowtie_thingies/",Year),full.names=T)
-  # #I removed the file for 12_20170801
-  # #for the convex approach I removed 12_20170801_072200
-  # # bow_fl
-  # # length(bow_fl)
-  #
-  # #check for file to remove. already gone (I only see: 12_20170131_032400_14days)
-  #
-  # #pull out relevant info (date, #days)
-  # f_i=1
-  # bows=NULL
-  # for (f_i in 1:length(bow_fl)) {   #loop through sampling sites for the given year
-  #
-  #   splitBFile=str_split(string=bow_fl[f_i],"/")
-  #   splitBFile
-  # bowGroup = splitBFile[[1]][8]
-  # bowGroup
-  
-  
-  bows.original = st_read(dsn = bow_fl[f_i], layer = layerName)
-  head(bows.original)
-  dim(bows.original)
 
-  #concave out and in
+  bows.original = st_read(dsn = bow_fl[f_i], layer = layerName)
+  # head(bows.original)
+  # dim(bows.original)
+
+  #concave buffer out and in
   bows_utm17 = st_transform(bows.original, 26917)
   # View(bows_utm17)
   # class(bows_utm17$geometry)
@@ -109,16 +78,16 @@ for (f_i in 1:length(bow_fl)) {
   
   bows=bows.bi
   bows$year = Year
-  bows$year
+  # bows$year
   #how can I isolate year from the name? since sites are sometimes separated by _)
   bows$visitID = visitID
-  bows$visitID
+  # bows$visitID
   bows$duration = bows$n_days
-  bows$duration
+  # bows$duration
   bows$bowID = paste0(bows$visitID, "_", bows$simu, "_", bows$n_days)
-  bows$bowID  
+  # bows$bowID  
 
-  head(bows)
+  # head(bows)
 
   yearBows =  rbind(yearBows, bows)
   # dim(yearBows)
@@ -127,32 +96,13 @@ for (f_i in 1:length(bow_fl)) {
 }
 
 dim(yearBows)
-# View(yearBows)
 
-
-# st_write(yearBows, '/Users/heidi.local/Desktop/FLK_data/ConcaveBufferedBows_AllYears_14Dec2022.shp')
-#below was the latest saved file (oct15)
-# st_write(yearBows, '/Users/heidihirsh/Desktop/ConvexBufferedBows_AllYears_24Dec2022.shp')
-#new save (oct15)
+#save output file
 st_write(yearBows,'/Users/heidi.k.hirsh/Desktop/Concave14Bows_AllYears_28dec223.shp')
 
 #saving failed so maybe I can save two halves
 #34160x8 
 #save 17080 rows in each
-
-
-  # split_df <- function(df) {
-  #   df1 <- df[1:ceiling(length(df[ , 1])), ]
-  #   df2 <- df[ceiling(length(df[ , 1])):length(df[ , 1]), ]
-  #   return(list(df1, df2))
-  # }
-  # 
-  # test=split_df(yearBows)
-  # 
-  # dim(test[[1]])
-  # dim(test[[2]])
-rows=dim(yearBows)[1]
-rows
 
 yearBows1 = yearBows[1:17080,]
 yearBows2 = yearBows[17081:34160,]
@@ -175,8 +125,9 @@ st_write(y3,'/Users/heidi.k.hirsh/Desktop/yearBows.29Dec/Concave14Bows_AllYears_
 st_write(y4,'/Users/heidi.k.hirsh/Desktop/yearBows.29Dec/Concave14Bows_AllYears_28dec223_y4of5.shp')
 st_write(y5,'/Users/heidi.k.hirsh/Desktop/yearBows.29Dec/Concave14Bows_AllYears_28dec223_y5of5.shp')
 
-#don't do volume intersection since ThomasD already calculated volume. So start with 'ConcaveBows_AllYears.shp' below
+#don't do volume intersection since ThomasD already calculated volume. 
 #Buffer out and back in (to capture shallow areas)
+#CRAP. is the volume inaccurate now because I buffered out 
 
 #PLOT BOWS
 # mapview(bows_utm17, color='red')+mapview(bows.bo)
@@ -225,8 +176,6 @@ benthicBows[, 'NCo.m2'] = NA
 benthicBows[, 'PercentCheck'] = NA
 
 head(benthicBows)
-
-# b_i=10
 
 for (b_i in 1:nrow(benthicBows)) {
   # for (b_i in 1:7) {
@@ -312,11 +261,15 @@ for (b_i in 1:nrow(benthicBows)) {
 } #end loop to pull benthic info
 
 dim(benthicBows)
-st_write(benthicBows,'/Users/heidi.k.hirsh/Desktop/Concave_BowBenthic_7days_29dec2023full.shp')
-# st_write(benthicBows,'/Users/heidihirsh/Desktop/Concave_BowBenthic_7days_start28Dec2023.shp')
-
 class(benthicBows)
-dim(benthicBows)
+
+st_write(benthicBows,'/Users/heidi.k.hirsh/Desktop/Concave_BowBenthic_7days_29dec2023full.shp')
+
+bbows = st_read('/Users/heidi.k.hirsh/Desktop/benthicBows_30dec/Concave_BowBenthic_7days_29dec2023full.shp')
+
+class(bbows)
+dim(bbows)  #8540   14
+head(bbows)
 
 
 

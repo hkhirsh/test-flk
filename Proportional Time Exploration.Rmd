@@ -1,0 +1,72 @@
+---
+title: "Proportional Time Exploration"
+author: "Heidi Hirsh"
+date: "2024-01-08"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Explore proportional time data from Thomas D
+Using data provided by Thomas on Jan 8
+Email: "Florida Keys Line"
+
+```{r}
+rm(list=ls())
+library(magick)
+library(sf)
+library(ggplot2)
+library(tidyverse)
+library(ggmap)
+library(ggrepel)
+library(rstudioapi)
+library(stringr)
+library(sp)
+library(raster)
+library(mapview)
+library(leaflet)
+library(dplyr)
+register_google(key = "AIzaSyB3mq0nJtcNWvQUNuqH_t-MLxEUmwDDmGk") #new api OCT2023
+
+```
+
+## Load data from Thomas
+
+```{r}
+propTime = st_read('/Users/heidi.k.hirsh/Desktop/refloridakeysline/time_north_shp/time_north.shp')
+head(propTime)
+View(propTime)
+```
+
+## Restructure data from Thomas so that the columns for each time fraction (ex: north_1d) are including in "North_Fraction" and "South_Fraction" columns
+I think I need to pivot_longer to accomplish this
+
+```{r}
+propTime.L = pivot_longer(data=propTime,cols=-c(simu,sample_id,geometry),names_to="side.ndays",values_to="fraction")
+names(propTime.L)
+head(propTime.L)
+```
+## Now I need to separate out the number of days into new "ndays" column
+After taking out the number of days I can separate north and south fractions into separate columns. 
+
+```{r}
+#string split side.ndays to isolate number of days
+#then save that number to a new column called ndays
+#also save north or south to new column
+
+split = str_split(string = propTime.L$side.ndays, "_")
+propTime.L$side.ndays
+split[[1:dim(propTime.L)[1]]][1]
+dim(propTime.L)[1]
+
+```
